@@ -1003,15 +1003,12 @@ void Adafruit_SSD1306::display(void) {
       0xFF,                   // Page end (not really, but works here)
       SSD1306_COLUMNADDR};
   ssd1306_commandList(dlist1, sizeof(dlist1));
+  uint8_t x_offset = 0;
   if ((WIDTH == 72) && (HEIGHT == 40)) {
-    uint8_t x_offset = (128 - WIDTH) / 2;
-    ssd1306_command1(x_offset);             // Column start address
-    ssd1306_command1(x_offset + WIDTH - 1); // Column end address
+    x_offset = (128 - WIDTH) / 2;
   }
-  else {
-    ssd1306_command1(0);         // Column start address
-    ssd1306_command1(WIDTH - 1); // Column end address
-  }
+  ssd1306_command1(x_offset);             // Column start address
+  ssd1306_command1(x_offset + WIDTH - 1); // Column end address
 
 #if defined(ESP8266)
   // ESP8266 needs a periodic yield() call to avoid watchdog reset.
